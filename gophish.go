@@ -1,4 +1,4 @@
-package main
+package main // Package main
 
 import (
 	"bytes"
@@ -17,8 +17,8 @@ import (
 	"github.com/ghodss/yaml"
 )
 
-//Print coloured output
-func gopishPrintColor(s string, c string) {
+//gophishPrintColor : Print coloured output
+func gophishPrintColor(s string, c string) {
 	if c == "warn" {
 		fmt.Println("[ gophish ]", color.YellowString(s))
 	} else if c == "info" {
@@ -30,32 +30,32 @@ func gopishPrintColor(s string, c string) {
 	}
 }
 
-//Wrapper for gophishPrintColor in case of colorless terminal (cmd)
+//gPrint : Wrapper for gophishPrintColor in case of colorless terminal (cmd)
 func gPrint(s string, c string) {
 	switch runtime.GOOS {
 	case "windows":
 		fmt.Println("[ gophish ]", s)
 	default:
-		gopishPrintColor(s, c)
+		gophishPrintColor(s, c)
 
 	}
 }
 
-//Check errors
+//checkErr : Check errors
 func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
 }
 
-//Get directory name
+//dirname : Get directory name
 func dirname() string {
 	dir, err := os.Getwd()
 	checkErr(err)
 	return dir
 }
 
-//Retrieve the tracking url from ki.tc
+//getTrackingURL : Retrieve the tracking url from ki.tc
 func getTrackingURL(url string) map[string]map[string]string {
 	res := make(map[string]map[string]string)
 	b := []byte(`{"url":"http://` + url + `"}`)
@@ -76,7 +76,7 @@ func getTrackingURL(url string) map[string]map[string]string {
 	return res
 }
 
-//Monitor clicks from a specific link e.g when resuming a session
+//resumeSessionFromAdminLink : Monitor clicks from a specific link e.g when resuming a session
 func resumeSessionFromAdminLink(timeout int, link string) {
 	gPrint("ADMIN url => "+link, "details")
 	quit := make(chan bool)
@@ -166,7 +166,7 @@ func resumeSessionFromAdminLink(timeout int, link string) {
 	<-quit
 }
 
-//Start new capture session
+//newCaptureSession : Start new capture session
 func newCaptureSession(o map[string]map[string]string, timeout int) {
 	gPrint("ADMIN url    => "+o["url_short"]["admin_link"], "details")
 	gPrint("TRANSER_ID   => "+o["url_short"]["_id"], "details")
@@ -258,7 +258,7 @@ func newCaptureSession(o map[string]map[string]string, timeout int) {
 	<-quit
 }
 
-//Convert os.Args into a map of string to string
+//genArgsMap : Convert os.Args into a map of string to string
 func genArgsMap(s []string) map[string]string {
 	m := make(map[string]string)
 	for _, i := range s {
@@ -273,7 +273,7 @@ func genArgsMap(s []string) map[string]string {
 	return m
 }
 
-//Help
+//help : Display help
 func help() {
 	str := "gophish <url> [options?] " + "\n\t\turl -> url to redirect target after getting information (url should not start with http:// )" +
 		"\n\t\toptions\n\t\t\t--admin -> Admin link provided by first launch to continue (url not needed)" +
