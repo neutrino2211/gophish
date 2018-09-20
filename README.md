@@ -14,3 +14,9 @@ Gophish v0.0.1
                         --admin -> Admin link provided by first launch to continue (url not needed)
                         --timeout -> optional interval for checking if the linked was clicked
 ```
+
+## Installation
+
+```bash
+go get -v github.com/neutrino2211/gophish
+```
